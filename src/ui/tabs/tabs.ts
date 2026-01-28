@@ -69,7 +69,16 @@ export class Tabs {
      */
     private render(): void {
         if (this.container) {
-            this.container.innerHTML = createTabsHTML(this.tabs);
+            // 使用 DOMParser 来避免 TrustedHTML 错误
+            const tabsHTML = createTabsHTML(this.tabs);
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(tabsHTML, 'text/html');
+
+            // 清空容器并添加新内容
+            this.container.innerHTML = '';
+            while (doc.body.firstChild) {
+                this.container.appendChild(doc.body.firstChild);
+            }
         }
     }
     

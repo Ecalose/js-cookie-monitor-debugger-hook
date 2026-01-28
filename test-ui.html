@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Cookie Monitor UI 测试</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 40px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .test-button {
+            background: linear-gradient(to right, #4f7dff, #6a8fff);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin: 10px;
+        }
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 125, 255, 0.3);
+        }
+        .info {
+            background: #e3f2fd;
+            padding: 16px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #2196f3;
+        }
+        .cookie-actions {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🍪 JS Cookie Monitor UI 测试页面</h1>
+        
+        <div class="info">
+            <h3>测试说明</h3>
+            <p>1. 确保已安装 JS Cookie Monitor 油猴脚本</p>
+            <p>2. 点击下方按钮测试界面功能</p>
+            <p>3. 使用 Ctrl/Cmd + Shift + J 快捷键或油猴菜单打开配置面板</p>
+        </div>
+        
+        <div class="cookie-actions">
+            <h3>Cookie 操作测试</h3>
+            <button class="test-button" onclick="addTestCookie()">添加测试 Cookie</button>
+            <button class="test-button" onclick="updateTestCookie()">更新测试 Cookie</button>
+            <button class="test-button" onclick="deleteTestCookie()">删除测试 Cookie</button>
+            <button class="test-button" onclick="showCurrentCookies()">显示当前 Cookies</button>
+        </div>
+        
+        <div class="cookie-actions">
+            <h3>界面测试</h3>
+            <button class="test-button" onclick="openConfigPanel()">打开配置面板</button>
+            <button class="test-button" onclick="testBreakpoint()">测试断点功能</button>
+        </div>
+        
+        <div id="output" style="margin-top: 20px; padding: 16px; background: #f8f9fa; border-radius: 8px; font-family: monospace; white-space: pre-wrap;"></div>
+    </div>
+
+    <script>
+        function log(message) {
+            const output = document.getElementById('output');
+            const timestamp = new Date().toLocaleTimeString();
+            output.textContent += `[${timestamp}] ${message}\n`;
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function addTestCookie() {
+            document.cookie = "test_cookie=test_value_" + Date.now() + "; path=/";
+            log("添加了测试 Cookie");
+        }
+
+        function updateTestCookie() {
+            document.cookie = "test_cookie=updated_value_" + Date.now() + "; path=/";
+            log("更新了测试 Cookie");
+        }
+
+        function deleteTestCookie() {
+            document.cookie = "test_cookie=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+            log("删除了测试 Cookie");
+        }
+
+        function showCurrentCookies() {
+            const cookies = document.cookie;
+            log("当前 Cookies: " + (cookies || "无"));
+        }
+
+        function openConfigPanel() {
+            // 模拟快捷键
+            const event = new KeyboardEvent('keydown', {
+                key: 'J',
+                ctrlKey: true,
+                shiftKey: true,
+                bubbles: true
+            });
+            document.dispatchEvent(event);
+            log("尝试打开配置面板（快捷键）");
+        }
+
+        function testBreakpoint() {
+            // 添加一个可能触发断点的 Cookie
+            document.cookie = "breakpoint_test=trigger_value; path=/";
+            log("添加了可能触发断点的 Cookie");
+        }
+
+        // 页面加载完成后的初始化
+        window.addEventListener('load', function() {
+            log("测试页面加载完成");
+            log("请确保 JS Cookie Monitor 脚本已正确加载");
+            
+            // 检查是否有相关的全局变量或函数
+            if (typeof window.showModal === 'function') {
+                log("检测到 showModal 函数");
+            } else {
+                log("未检测到 showModal 函数，请检查脚本是否正确加载");
+            }
+        });
+    </script>
+</body>
+</html>
